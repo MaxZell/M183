@@ -1,0 +1,11 @@
+{
+  "name": "DailyToDo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/MaxZell/M183.git",
+  "author": "mzelensky <max.m.zelensky@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
