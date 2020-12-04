@@ -6,6 +6,11 @@
   "author": "mzelensky <max.m.zelensky@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "escape-html": "^1.0.3",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "node-serialize": "^0.0.4"
   }
 }

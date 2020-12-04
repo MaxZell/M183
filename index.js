@@ -1,14 +1,74 @@
 ﻿const express = require('express');
-
+const mysql = require('mysql');
 const app = express();
-const port = process.env.PORT || 5000;
+const path = require('path');
+const bodyParser = require('body-parser');
+const port = 5000;
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'frontend')));
+var escape = require('escape-html');
+var cookieParser = require('cookie-parser');
+var serialisieren = require('node-serialize');
+app.use(cookieParser())
 
-  app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+//mysql db connection
+const con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "daily_todo",
+  table: "ticket"
+});
+
+//json parse
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//working with post requests
+app.post('/', (req) => {
+  console.log("title ", req.body.title);
+  console.log("description ", req.body.description);
+  //insert into daily_todo.ticket table
+  let sql = `insert into ticket(title, description) values("${req.body.title}", "${req.body.description}");`;
+  // con.query(sql, function (err) {
+  //   if (err) throw err;
+  //   console.log("Inserted");
+  // });
+})
+
+//serializer
+app.get('/serializer', function(req, res) {
+  if (req.cookies.profile) {
+    var str = new Buffer(req.cookies.profile, 'base64').toString();
+    var objekt = serialisieren.unserialize(str);
+    if (objekt.username) {
+      res.send("Hallo " + escape(objekt.username));
+    }
+  } else {
+      res.cookie('profile', "eyJ1c2VybmFtZSI6IkFkaXR5YSIsImNvdW50cnkiOiJpbmRpYSIsImNpdHkiOiJEZWxoaSJ9", {
+        maxAge: 900000,
+        httpOnly: true
+      });
+  }
+  res.send("Hello Serializer");
+ });
+
+//serve app
+app.use(express.static(path.join(__dirname, 'frontend/')));
+app.get('*', function(res) {
+  res.sendFile(path.join(__dirname, 'frontend/', 'index.html'));
+});
+
+//send json to fronted
+app.get('/', function() {
+  con.query("select * from tickets", function (err, res, result) {
+    if (err) throw err;
+    console.log(result);
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(result));
   });
-}
+});
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+//port listen
+app.listen(port, () => {
+  console.log(`App listening at port: ${port}`)
+})
