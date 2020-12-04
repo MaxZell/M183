@@ -24,15 +24,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //working with post requests
-app.post('/', (req) => {
+app.post('/insert', (req) => {
   console.log("title ", req.body.title);
   console.log("description ", req.body.description);
   //insert into daily_todo.ticket table
   let sql = `insert into ticket(title, description) values("${req.body.title}", "${req.body.description}");`;
-  // con.query(sql, function (err) {
-  //   if (err) throw err;
-  //   console.log("Inserted");
-  // });
+  con.query(sql, function (err) {
+    if (err) throw err;
+    console.log("Inserted");
+  });
 })
 
 //serializer
@@ -54,18 +54,21 @@ app.get('/serializer', function(req, res) {
 
 //serve app
 app.use(express.static(path.join(__dirname, 'frontend/')));
-app.get('*', function(res) {
+app.get('/', function(res) {
+  //serve frontend/index.html
   res.sendFile(path.join(__dirname, 'frontend/', 'index.html'));
 });
 
-//send json to fronted
-app.get('/', function() {
-  con.query("select * from tickets", function (err, res, result) {
+app.get('/loadTickets', function(res) {
+  //get all ToDos
+  con.query(`select * from ticket;`, function (err, result) {
     if (err) throw err;
     console.log(result);
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(result));
+    console.log("Send");
   });
+  //send json with db info to client
+  // res.setHeader('Content-Type', 'application/json');
+  // res.send(JSON.stringify(result));
 });
 
 //port listen
