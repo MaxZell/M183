@@ -15,7 +15,8 @@ const con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "daily_todo"
+  database: "daily_todo",
+  table: "ticket"
 });
 
 //json parse
@@ -53,8 +54,18 @@ app.get('/serializer', function(req, res) {
 
 //serve app
 app.use(express.static(path.join(__dirname, 'frontend/')));
-app.get('*', function(req, res) {
+app.get('*', function(res) {
   res.sendFile(path.join(__dirname, 'frontend/', 'index.html'));
+});
+
+//send json to fronted
+app.get('/', function() {
+  con.query("select * from tickets", function (err, res, result) {
+    if (err) throw err;
+    console.log(result);
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(result));
+  });
 });
 
 //port listen

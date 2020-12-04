@@ -4,7 +4,8 @@
     <link rel="stylesheet" href="styles/style.css">
 </head>
     <body>
-        <div id="toDoInput">
+        <div id="todoList"></div>
+        <div id="toDoInput" style="visibility: hidden;">
             <h1>Daily ToDo</h1>
             <label>Title</label></br>
             <input type="text" id="title" /></br></br>
@@ -12,6 +13,7 @@
             <textarea type="text" id="desc"></textarea></br></br>
             <button onclick="sendJSON()" id="submit">Add</button>
         </div>
+        <button onclick="showToDoAdder()">&#43;</button>
         <script src="script/script.js"></script>
     </body>
 </html>
