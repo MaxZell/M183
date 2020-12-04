@@ -25,7 +25,7 @@ function sendJSON(){
         body: JSON.stringify({ title: myTitle, description: myDesc }),
     });
     
-    document.getElementById('todoList').innerHTML =`
+    document.getElementById('todoList').textContent =`
     <div class="ticket">
         <p class="title">${myTitle}</p>
         <p class="description">${myDesc}</p>
