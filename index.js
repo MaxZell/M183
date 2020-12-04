@@ -29,10 +29,10 @@ app.post('/', (req) => {
   console.log("description ", req.body.description);
   //insert into daily_todo.ticket table
   let sql = `insert into ticket(title, description) values("${req.body.title}", "${req.body.description}");`;
-  con.query(sql, function (err) {
-    if (err) throw err;
-    console.log("Inserted");
-  });
+  // con.query(sql, function (err) {
+  //   if (err) throw err;
+  //   console.log("Inserted");
+  // });
 })
 
 //serializer

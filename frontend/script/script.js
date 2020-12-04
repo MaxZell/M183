@@ -1,5 +1,5 @@
-﻿// XSS
-//<script>alert("Hello")</script>
+﻿// XSS exaple
+//<img src='x' onerror='alert("XSS Example")'>
 
 //show todo add div
 function showToDoAdder(){
