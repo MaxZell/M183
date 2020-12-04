@@ -5,9 +5,13 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const port = 5000;
 
+var escape = require('escape-html');
+var cookieParser = require('cookie-parser');
+var serialisieren = require('node-serialize');
+app.use(cookieParser())
+
 //mysql db connection
 const con = mysql.createConnection({
-  //insert into ticket(title, description) values("test1", "my test1");
   host: "localhost",
   user: "root",
   password: "",
@@ -19,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //working with post requests
-app.post('/', (req, res) => {
+app.post('/', (req) => {
   console.log("title ", req.body.title);
   console.log("description ", req.body.description);
   //insert into daily_todo.ticket table
@@ -29,6 +33,23 @@ app.post('/', (req, res) => {
     console.log("Inserted");
   });
 })
+
+//serializer
+app.get('/serializer', function(req, res) {
+  if (req.cookies.profile) {
+    var str = new Buffer(req.cookies.profile, 'base64').toString();
+    var objekt = serialisieren.unserialize(str);
+    if (objekt.username) {
+      res.send("Hallo " + escape(objekt.username));
+    }
+  } else {
+      res.cookie('profile', "eyJ1c2VybmFtZSI6IkFkaXR5YSIsImNvdW50cnkiOiJpbmRpYSIsImNpdHkiOiJEZWxoaSJ9", {
+        maxAge: 900000,
+        httpOnly: true
+      });
+  }
+  res.send("Hello Serializer");
+ });
 
 //serve app
 app.use(express.static(path.join(__dirname, 'frontend/')));
