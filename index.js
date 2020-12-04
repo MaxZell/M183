@@ -1,34 +1,42 @@
 ﻿const express = require('express');
-var mysql = require('mysql');
+const mysql = require('mysql');
+const app = express();
+const path = require('path');
+const bodyParser = require('body-parser');
+const port = 5000;
 
-//db connection
-var con = mysql.createConnection({
+//mysql db connection
+const con = mysql.createConnection({
+  //insert into ticket(title, description) values("test1", "my test1");
   host: "localhost",
   user: "root",
   password: "",
   database: "daily_todo"
 });
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
+//json parse
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//working with post requests
+app.post('/', (req, res) => {
+  console.log("title ", req.body.title);
+  console.log("description ", req.body.description);
+  //insert into daily_todo.ticket table
+  let sql = `insert into ticket(title, description) values("${req.body.title}", "${req.body.description}");`;
+  con.query(sql, function (err) {
+    if (err) throw err;
+    console.log("Inserted");
+  });
+})
+
+//serve app
+app.use(express.static(path.join(__dirname, 'frontend/')));
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'frontend/', 'index.html'));
 });
 
-//node routing
-const app = express();
-const port = process.env.PORT || 5000;
-
-if (process.env.NODE_ENV === 'production') {
-  // app.use(express.static(path.join(__dirname, 'frontend')));
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-  });
-  
-  app.get('*', function(req, res) {
-    res.send("Hello");
-  });
-}
-
-//port 5000 listening
-app.listen(port, () => console.log(`Listening on port ${port}`));
+//port listen
+app.listen(port, () => {
+  console.log(`App listening at port: ${port}`)
+})

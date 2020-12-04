@@ -6,13 +6,11 @@
     <body>
         <div id="toDoInput">
             <h1>Daily ToDo</h1>
-            <form name="toDoForm">
-                <label>Title</label></br>
-                <input type="text" name="title" /></br></br>
-                <label>Desctiption</label></br>
-                <textarea type="text" name="desc"></textarea></br></br>
-                <button type="submit" id="submit">Add</button>
-            </form>
+            <label>Title</label></br>
+            <input type="text" id="title" /></br></br>
+            <label>Desctiption</label></br>
+            <textarea type="text" id="desc"></textarea></br></br>
+            <button onclick="sendJSON()" id="submit">Add</button>
         </div>
         <script src="script/script.js"></script>
     </body>
