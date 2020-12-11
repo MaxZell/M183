@@ -5,11 +5,12 @@ window.onload = loadToDos();
 
 //show todo add div
 function showToDoAdder(){
-    document.getElementById('toDoInput').style.visibility = "visible";
-}
-//hide todo add div
-function hideToDoAdder(){
-    document.getElementById('toDoInput').style.visibility = "hidden";
+    let toDoInputVisibility = document.getElementById('toDoInput').style.visibility;
+    if(toDoInputVisibility === "hidden"){
+        document.getElementById('toDoInput').style.visibility = "visible";
+    }else{
+        document.getElementById('toDoInput').style.visibility = "hidden";
+    }
 }
 
 //send new ToDo Ticket as json to backend
@@ -27,7 +28,14 @@ function sendJSON(){
         body: JSON.stringify({ title: myTitle, description: myDesc }),
     });
     
-    document.getElementById('todoList').innerHTML =`
+    //clear add form
+    showToDoAdder();
+    document.getElementById("title").value = '';
+    document.getElementById("desc").value = '';
+
+    //create new ticket div
+    var ticket = document.createElement("DIV");
+    ticket.innerHTML=`
         <div class="ticket">
             <p class="title">${myTitle}</p>
             <p class="description">${myDesc}</p>
@@ -37,6 +45,7 @@ function sendJSON(){
             </div>
         </div>
     `;
+    document.getElementById("todoList").appendChild(ticket); 
 } 
 
 //omLoad func: load ToDos Tickts from db
