@@ -37,11 +37,15 @@ function sendJSON(){
     var ticket = document.createElement("DIV");
     ticket.innerHTML=`
         <div class="ticket">
-            <p class="title">${myTitle}</p>
-            <p class="description">${myDesc}</p>
-            <div class="done">
-                <label for="ticketCB"></label>
-                <input type="checkbox" name="ticketCB" id="ticketCB">
+            <label>${myTitle}</label></br><hr>
+            <label class="switch">
+                <input type="checkbox" onclick="ticketIsDone()">
+                <span class="slider round"></span>
+            </label>
+            <div class="desc">
+                <span>
+                    ${myDesc}
+                </span>  
             </div>
         </div>
     `;
@@ -58,4 +62,8 @@ function loadToDos(){
             console.log("data");
             console.log(data);
         });
+}
+
+function ticketIsDone(){
+    console.log("done");
 }

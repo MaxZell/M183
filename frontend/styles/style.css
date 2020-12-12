@@ -47,8 +47,65 @@ h1{
 
 .ticket{
     border: 2px solid;
-    height: 150px;
+    min-height: 150px;
     width: 300px;
     margin: 10px;
     background-color: cadetblue;
 }
+
+.desc span{
+    display: block;
+    width: 100%;
+    margin: 10px;
+    word-wrap: break-word;
+}
+
+/* switch */
+.switch {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    float: right;
+    top: -40px;
+}
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: red;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 0px;
+    bottom: 0px;
+    background-color: black;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: green;
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px green;
+}
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
