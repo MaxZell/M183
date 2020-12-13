@@ -8,8 +8,10 @@ function showToDoAdder(){
     let toDoInputVisibility = document.getElementById('toDoInput').style.visibility;
     if(toDoInputVisibility === "hidden"){
         document.getElementById('toDoInput').style.visibility = "visible";
+        document.getElementById('todoList').style.visibility = "hidden";
     }else{
         document.getElementById('toDoInput').style.visibility = "hidden";
+        document.getElementById('todoList').style.visibility = "visible";
     }
 }
 
