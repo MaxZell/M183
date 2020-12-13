@@ -59,16 +59,16 @@ app.get('/', function(res) {
   res.sendFile(path.join(__dirname, 'frontend/', 'index.html'));
 });
 
-app.get('/loadTickets', function(res) {
+app.get('/loadTickets', function(req, res) {
   //get all ToDos
-  con.query(`select * from ticket;`, function (err, result) {
+  con.query(`select * from ticket;`, function(err, result){
     if (err) throw err;
     console.log(result);
     console.log("Send");
+    //send json with db info to client
+    res.json(JSON.stringify(result));
   });
-  //send json with db info to client
-  // res.setHeader('Content-Type', 'application/json');
-  // res.send(JSON.stringify(result));
+
 });
 
 //port listen
