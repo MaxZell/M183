@@ -59,8 +59,26 @@ function loadToDos(){
             return response.json();
         })
         .then((data) => {
-            console.log("data");
-            console.log(data);
+            data = JSON.parse(data);
+            for(var i = 0; i < data.length; i++) {
+                var ticketData = data[i];
+                var ticket = document.createElement("DIV");
+                ticket.innerHTML=`
+                    <div class="ticket">
+                        <label>${ticketData.title}</label></br><hr>
+                        <label class="switch">
+                            <input type="checkbox" onclick="ticketIsDone()">
+                            <span class="slider round"></span>
+                        </label>
+                        <div class="desc">
+                            <span>
+                                ${ticketData.description}
+                            </span>  
+                        </div>
+                    </div>
+                `;
+                document.getElementById("todoList").appendChild(ticket);
+            }
         });
 }
 
